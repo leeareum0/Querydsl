@@ -650,4 +650,20 @@ public class QuerydslBasicTest {
             System.out.println("member1 = " + member1);
         }
     }
+
+    //더하기 벌크 연산
+    @Test
+    public void bulkAdd() {
+        queryFactory.update(member)
+                .set(member.age, member.age.add(1))
+                .execute();
+    }
+
+    //곱하기 벌크 연산
+    @Test
+    public void bulkMultiply() {
+        queryFactory.update(member)
+                .set(member.age, member.age.multiply(1))
+                .execute();
+    }
 }
