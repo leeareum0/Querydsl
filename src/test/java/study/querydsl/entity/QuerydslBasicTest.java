@@ -666,4 +666,12 @@ public class QuerydslBasicTest {
                 .set(member.age, member.age.multiply(1))
                 .execute();
     }
+
+    //삭제 벌크 연산
+    @Test
+    public void bulkDelete() {
+        queryFactory.delete(member)
+                .where(member.age.gt(18))
+                .execute();
+    }
 }
