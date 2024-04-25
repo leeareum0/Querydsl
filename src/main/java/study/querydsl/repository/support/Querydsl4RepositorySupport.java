@@ -14,11 +14,13 @@ import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.Querydsl;
 import org.springframework.data.querydsl.SimpleEntityPathResolver;
 import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.function.Function;
 
+@Repository
 public abstract class Querydsl4RepositorySupport {
 
     private final Class domainClass;
