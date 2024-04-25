@@ -77,6 +77,14 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     //복잡한 페이징 - 데이터 조회 쿼리, 전제 Count 쿼리 분리
     @Override
     public Page<MemberTeamDto> searchPageComplex(MemberSearchCondition condition, Pageable pageable) {
+        List<MemberTeamDto> content = getMemberTeamDtos(condition, pageable);
+
+        long total = getTotal(condition);
+        
+        return new PageImpl<>(content, pageable, total);
+    }
+
+    private List<MemberTeamDto> getMemberTeamDtos(MemberSearchCondition condition, Pageable pageable) {
         List<MemberTeamDto> content = queryFactory
                 .select(new QMemberTeamDto(
                         member.id,
@@ -95,7 +103,10 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
+        return content;
+    }
 
+    private long getTotal(MemberSearchCondition condition) {
         long total = queryFactory
                 .select(member)
                 .from(member)
@@ -107,9 +118,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                         ageLoe(condition.getAgeLoe())
                 )
                 .fetchCount();
-
-
-        return new PageImpl<>(content, pageable, total);
+        return total;
     }
 
     private BooleanExpression usernameEq(String username) {
